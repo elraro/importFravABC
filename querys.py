@@ -1,4 +1,4 @@
-query1 = "CREATE TABLE `frav_ABC`.`logitech_halogeno_test` (" \
+query1 = "CREATE TABLE `frav_ABC`.`logitech_halogeno_data` (" \
        "`id` INT AUTO_INCREMENT," \
        "`clase` INT NOT NULL," \
        "`file` VARCHAR(255) NOT NULL," \
