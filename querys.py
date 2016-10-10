@@ -1,5 +1,5 @@
 query1 = "CREATE TABLE `frav_ABC`.`logitech_halogeno_test` (" \
-       "`id` INT NOT NULL AUTO_INCREMENT," \
+       "`id` INT AUTO_INCREMENT," \
        "`clase` INT NOT NULL," \
        "`file` VARCHAR(255) NOT NULL," \
        "`locateFace` INT NOT NULL," \
