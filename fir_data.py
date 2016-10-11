@@ -1,6 +1,7 @@
 import MySQLdb as mdb
 import querys as querys
 
+# Hardcoded
 DB_HOST = "localhost"
 DB_USER = "frav"
 DB_PASS = "VXxL4UOLvB6wc01Y3Cxi"
@@ -11,13 +12,13 @@ con = None
 con = mdb.connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)
 cur = con.cursor()
 
-cur.execute(querys.query_fir_logitech_fluorescente_data)
-cur.execute(querys.query_fir_logitech_halogeno_data)
-cur.execute(querys.query_fir_logitech_led_data)
-cur.execute(querys.query_fir_logitech_nir_data)
-cur.execute(querys.query_fir_microsoft_fluorescente_data)
-cur.execute(querys.query_fir_microsoft_halogeno_data)
-cur.execute(querys.query_fir_microsoft_led_data)
+cur.execute(querys.create_table("fir_logitech_fluorescente_data"))
+cur.execute(querys.create_table("fir_logitech_halogeno_data"))
+cur.execute(querys.create_table("fir_logitech_led_data"))
+cur.execute(querys.create_table("fir_logitech_nir_data"))
+cur.execute(querys.create_table("fir_microsoft_fluorescente_data"))
+cur.execute(querys.create_table("fir_microsoft_halogeno_data"))
+cur.execute(querys.create_table("fir_microsoft_led_data"))
 con.commit()
 
 with open("/media/alberto/Datos/FRAV_ALBERTO/FIR/DATA/logitech_fluorescente_data.txt") as f:
