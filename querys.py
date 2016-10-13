@@ -1,567 +1,91 @@
-query_fir_logitech_fluorescente_data = "CREATE TABLE `frav_ABC`.`fir_logitech_fluorescente_data` (" \
+import sys
+from time import sleep
+
+
+def create_table(table):
+    return "CREATE TABLE IF NOT EXISTS`frav_ABC`.`" + table + "` (" \
        "`id` INT AUTO_INCREMENT," \
-       "`clase` INT NOT NULL," \
-       "`file` VARCHAR(255) NOT NULL," \
-       "`locateFace` INT NOT NULL," \
-       "`faceConfidence` REAL NOT NULL," \
-       "`locateEyes` INT NOT NULL," \
-       "`eye0Confidence` REAL NOT NULL," \
-       "`eye1Confidence` REAL NOT NULL," \
-       "`age` INT NOT NULL," \
-       "`backgroundUniformity` REAL NOT NULL," \
-       "`chin` REAL NOT NULL," \
-       "`crown` REAL NOT NULL," \
-       "`deviationFromFrontalPose` REAL NOT NULL," \
-       "`deviationFromUniformLighting` REAL NOT NULL," \
-       "`ear0` REAL NOT NULL," \
-       "`ear1` REAL NOT NULL," \
-       "`ethnicityAsian` REAL NOT NULL," \
-       "`ethnicityBlack` REAL NOT NULL," \
-       "`ethnicityWhite` REAL NOT NULL," \
-       "`exposure` REAL NOT NULL," \
-       "`eye0X` REAL NOT NULL," \
-       "`eye0Y` REAL NOT NULL," \
-       "`eye0GazeFrontal` REAL NOT NULL," \
-       "`eye0Open` REAL NOT NULL," \
-       "`eye0Red` REAL NOT NULL," \
-       "`eye0Tinted` REAL NOT NULL," \
-       "`eye1X` REAL NOT NULL," \
-       "`eye1Y` REAL NOT NULL," \
-       "`eye1GazeFrontal` REAL NOT NULL," \
-       "`eye1Open` REAL NOT NULL," \
-       "`eye1Red` REAL NOT NULL," \
-       "`eye1Tinted` REAL NOT NULL," \
-       "`eyeDistance` REAL NOT NULL," \
-       "`faceCenterX` REAL NOT NULL," \
-       "`faceCenterY` REAL NOT NULL," \
-       "`glasses` REAL NOT NULL," \
-       "`grayScaleDensity` INT NOT NULL," \
-       "`height` INT NOT NULL," \
-       "`hotSpots` INT NOT NULL," \
-       "`isColor` INT NOT NULL," \
-       "`isMale` REAL NOT NULL," \
-       "`lengthOfHead` REAL NOT NULL," \
-       "`mouthClosed` REAL NOT NULL," \
-       "`naturalSkinColour` REAL NOT NULL," \
-       "`numberOfFaces` INT NOT NULL," \
-       "`poseAngleRoll` REAL NOT NULL," \
-       "`sharpness` REAL NOT NULL," \
-       "`width` INT NOT NULL," \
-       "`widthOfHead` REAL NOT NULL," \
-       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesNotRedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesOpenBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_GoodExposure` INT NOT NULL," \
-       "`ISO_19794_5_GoodGrayScaleProfile` INT NOT NULL," \
-       "`ISO_19794_5_GoodVerticalFacePosition` INT NOT NULL," \
-       "`ISO_19794_5_HasNaturalSkinColour` INT NOT NULL," \
-       "`ISO_19794_5_HorizontallyCenteredFace` INT NOT NULL," \
-       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsCompliant` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontal` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsLightingUniform` INT NOT NULL," \
-       "`ISO_19794_5_IsSharp` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHeadBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_MouthClosedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_NoHotSpots` INT NOT NULL," \
-       "`ISO_19794_5_NoTintedGlasses` INT NOT NULL," \
-       "`ISO_19794_5_OnlyOneFaceVisible` INT NOT NULL," \
-       "`ISO_19794_5_Resolution` INT NOT NULL," \
-       "`ISO_19794_5_ResolutionBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHeadBestPractice` INT NOT NULL," \
-       "`Features_Ethnicity` INT NOT NULL," \
-       "`Features_Gender` INT NOT NULL," \
-       "`Features_WearsGlasses` INT NOT NULL," \
+       "`clase` INT," \
+       "`file` VARCHAR(255)," \
+       "`locateFace` INT," \
+       "`faceConfidence` REAL," \
+       "`locateEyes` INT," \
+       "`eye0Confidence` REAL," \
+       "`eye1Confidence` REAL," \
+       "`age` INT," \
+       "`backgroundUniformity` REAL," \
+       "`chin` REAL," \
+       "`crown` REAL," \
+       "`deviationFromFrontalPose` REAL," \
+       "`deviationFromUniformLighting` REAL," \
+       "`ear0` REAL," \
+       "`ear1` REAL," \
+       "`ethnicityAsian` REAL," \
+       "`ethnicityBlack` REAL," \
+       "`ethnicityWhite` REAL," \
+       "`exposure` REAL," \
+       "`eye0X` REAL," \
+       "`eye0Y` REAL," \
+       "`eye0GazeFrontal` REAL," \
+       "`eye0Open` REAL," \
+       "`eye0Red` REAL," \
+       "`eye0Tinted` REAL," \
+       "`eye1X` REAL," \
+       "`eye1Y` REAL," \
+       "`eye1GazeFrontal` REAL," \
+       "`eye1Open` REAL," \
+       "`eye1Red` REAL," \
+       "`eye1Tinted` REAL," \
+       "`eyeDistance` REAL," \
+       "`faceCenterX` REAL," \
+       "`faceCenterY` REAL," \
+       "`glasses` REAL," \
+       "`grayScaleDensity` INT," \
+       "`height` INT," \
+       "`hotSpots` INT," \
+       "`isColor` INT," \
+       "`isMale` REAL," \
+       "`lengthOfHead` REAL," \
+       "`mouthClosed` REAL," \
+       "`naturalSkinColour` REAL," \
+       "`numberOfFaces` INT," \
+       "`poseAngleRoll` REAL," \
+       "`sharpness` REAL," \
+       "`width` INT," \
+       "`widthOfHead` REAL," \
+       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT," \
+       "`ISO_19794_5_EyesNotRedBestPractice` INT," \
+       "`ISO_19794_5_EyesOpenBestPractice` INT," \
+       "`ISO_19794_5_GoodExposure` INT," \
+       "`ISO_19794_5_GoodGrayScaleProfile` INT," \
+       "`ISO_19794_5_GoodVerticalFacePosition` INT," \
+       "`ISO_19794_5_HasNaturalSkinColour` INT," \
+       "`ISO_19794_5_HorizontallyCenteredFace` INT," \
+       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT," \
+       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT," \
+       "`ISO_19794_5_IsBestPractice` INT," \
+       "`ISO_19794_5_IsCompliant` INT," \
+       "`ISO_19794_5_IsFrontal` INT," \
+       "`ISO_19794_5_IsFrontalBestPractice` INT," \
+       "`ISO_19794_5_IsLightingUniform` INT," \
+       "`ISO_19794_5_IsSharp` INT," \
+       "`ISO_19794_5_LengthOfHead` INT," \
+       "`ISO_19794_5_LengthOfHeadBestPractice` INT," \
+       "`ISO_19794_5_MouthClosedBestPractice` INT," \
+       "`ISO_19794_5_NoHotSpots` INT," \
+       "`ISO_19794_5_NoTintedGlasses` INT," \
+       "`ISO_19794_5_OnlyOneFaceVisible` INT," \
+       "`ISO_19794_5_Resolution` INT," \
+       "`ISO_19794_5_ResolutionBestPractice` INT," \
+       "`ISO_19794_5_WidthOfHead` INT," \
+       "`ISO_19794_5_WidthOfHeadBestPractice` INT," \
+       "`Features_Ethnicity` INT," \
+       "`Features_Gender` INT," \
+       "`Features_WearsGlasses` INT," \
        "PRIMARY KEY (`id`));"
 
 
-query_fir_logitech_halogeno_data = "CREATE TABLE `frav_ABC`.`fir_logitech_halogeno_data` (" \
-       "`id` INT AUTO_INCREMENT," \
-       "`clase` INT NOT NULL," \
-       "`file` VARCHAR(255) NOT NULL," \
-       "`locateFace` INT NOT NULL," \
-       "`faceConfidence` REAL NOT NULL," \
-       "`locateEyes` INT NOT NULL," \
-       "`eye0Confidence` REAL NOT NULL," \
-       "`eye1Confidence` REAL NOT NULL," \
-       "`age` INT NOT NULL," \
-       "`backgroundUniformity` REAL NOT NULL," \
-       "`chin` REAL NOT NULL," \
-       "`crown` REAL NOT NULL," \
-       "`deviationFromFrontalPose` REAL NOT NULL," \
-       "`deviationFromUniformLighting` REAL NOT NULL," \
-       "`ear0` REAL NOT NULL," \
-       "`ear1` REAL NOT NULL," \
-       "`ethnicityAsian` REAL NOT NULL," \
-       "`ethnicityBlack` REAL NOT NULL," \
-       "`ethnicityWhite` REAL NOT NULL," \
-       "`exposure` REAL NOT NULL," \
-       "`eye0X` REAL NOT NULL," \
-       "`eye0Y` REAL NOT NULL," \
-       "`eye0GazeFrontal` REAL NOT NULL," \
-       "`eye0Open` REAL NOT NULL," \
-       "`eye0Red` REAL NOT NULL," \
-       "`eye0Tinted` REAL NOT NULL," \
-       "`eye1X` REAL NOT NULL," \
-       "`eye1Y` REAL NOT NULL," \
-       "`eye1GazeFrontal` REAL NOT NULL," \
-       "`eye1Open` REAL NOT NULL," \
-       "`eye1Red` REAL NOT NULL," \
-       "`eye1Tinted` REAL NOT NULL," \
-       "`eyeDistance` REAL NOT NULL," \
-       "`faceCenterX` REAL NOT NULL," \
-       "`faceCenterY` REAL NOT NULL," \
-       "`glasses` REAL NOT NULL," \
-       "`grayScaleDensity` INT NOT NULL," \
-       "`height` INT NOT NULL," \
-       "`hotSpots` INT NOT NULL," \
-       "`isColor` INT NOT NULL," \
-       "`isMale` REAL NOT NULL," \
-       "`lengthOfHead` REAL NOT NULL," \
-       "`mouthClosed` REAL NOT NULL," \
-       "`naturalSkinColour` REAL NOT NULL," \
-       "`numberOfFaces` INT NOT NULL," \
-       "`poseAngleRoll` REAL NOT NULL," \
-       "`sharpness` REAL NOT NULL," \
-       "`width` INT NOT NULL," \
-       "`widthOfHead` REAL NOT NULL," \
-       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesNotRedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesOpenBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_GoodExposure` INT NOT NULL," \
-       "`ISO_19794_5_GoodGrayScaleProfile` INT NOT NULL," \
-       "`ISO_19794_5_GoodVerticalFacePosition` INT NOT NULL," \
-       "`ISO_19794_5_HasNaturalSkinColour` INT NOT NULL," \
-       "`ISO_19794_5_HorizontallyCenteredFace` INT NOT NULL," \
-       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsCompliant` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontal` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsLightingUniform` INT NOT NULL," \
-       "`ISO_19794_5_IsSharp` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHeadBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_MouthClosedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_NoHotSpots` INT NOT NULL," \
-       "`ISO_19794_5_NoTintedGlasses` INT NOT NULL," \
-       "`ISO_19794_5_OnlyOneFaceVisible` INT NOT NULL," \
-       "`ISO_19794_5_Resolution` INT NOT NULL," \
-       "`ISO_19794_5_ResolutionBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHeadBestPractice` INT NOT NULL," \
-       "`Features_Ethnicity` INT NOT NULL," \
-       "`Features_Gender` INT NOT NULL," \
-       "`Features_WearsGlasses` INT NOT NULL," \
-       "PRIMARY KEY (`id`));"
-
-query_fir_logitech_led_data = "CREATE TABLE `frav_ABC`.`fir_logitech_led_data` (" \
-       "`id` INT AUTO_INCREMENT," \
-       "`clase` INT NOT NULL," \
-       "`file` VARCHAR(255) NOT NULL," \
-       "`locateFace` INT NOT NULL," \
-       "`faceConfidence` REAL NOT NULL," \
-       "`locateEyes` INT NOT NULL," \
-       "`eye0Confidence` REAL NOT NULL," \
-       "`eye1Confidence` REAL NOT NULL," \
-       "`age` INT NOT NULL," \
-       "`backgroundUniformity` REAL NOT NULL," \
-       "`chin` REAL NOT NULL," \
-       "`crown` REAL NOT NULL," \
-       "`deviationFromFrontalPose` REAL NOT NULL," \
-       "`deviationFromUniformLighting` REAL NOT NULL," \
-       "`ear0` REAL NOT NULL," \
-       "`ear1` REAL NOT NULL," \
-       "`ethnicityAsian` REAL NOT NULL," \
-       "`ethnicityBlack` REAL NOT NULL," \
-       "`ethnicityWhite` REAL NOT NULL," \
-       "`exposure` REAL NOT NULL," \
-       "`eye0X` REAL NOT NULL," \
-       "`eye0Y` REAL NOT NULL," \
-       "`eye0GazeFrontal` REAL NOT NULL," \
-       "`eye0Open` REAL NOT NULL," \
-       "`eye0Red` REAL NOT NULL," \
-       "`eye0Tinted` REAL NOT NULL," \
-       "`eye1X` REAL NOT NULL," \
-       "`eye1Y` REAL NOT NULL," \
-       "`eye1GazeFrontal` REAL NOT NULL," \
-       "`eye1Open` REAL NOT NULL," \
-       "`eye1Red` REAL NOT NULL," \
-       "`eye1Tinted` REAL NOT NULL," \
-       "`eyeDistance` REAL NOT NULL," \
-       "`faceCenterX` REAL NOT NULL," \
-       "`faceCenterY` REAL NOT NULL," \
-       "`glasses` REAL NOT NULL," \
-       "`grayScaleDensity` INT NOT NULL," \
-       "`height` INT NOT NULL," \
-       "`hotSpots` INT NOT NULL," \
-       "`isColor` INT NOT NULL," \
-       "`isMale` REAL NOT NULL," \
-       "`lengthOfHead` REAL NOT NULL," \
-       "`mouthClosed` REAL NOT NULL," \
-       "`naturalSkinColour` REAL NOT NULL," \
-       "`numberOfFaces` INT NOT NULL," \
-       "`poseAngleRoll` REAL NOT NULL," \
-       "`sharpness` REAL NOT NULL," \
-       "`width` INT NOT NULL," \
-       "`widthOfHead` REAL NOT NULL," \
-       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesNotRedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesOpenBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_GoodExposure` INT NOT NULL," \
-       "`ISO_19794_5_GoodGrayScaleProfile` INT NOT NULL," \
-       "`ISO_19794_5_GoodVerticalFacePosition` INT NOT NULL," \
-       "`ISO_19794_5_HasNaturalSkinColour` INT NOT NULL," \
-       "`ISO_19794_5_HorizontallyCenteredFace` INT NOT NULL," \
-       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsCompliant` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontal` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsLightingUniform` INT NOT NULL," \
-       "`ISO_19794_5_IsSharp` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHeadBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_MouthClosedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_NoHotSpots` INT NOT NULL," \
-       "`ISO_19794_5_NoTintedGlasses` INT NOT NULL," \
-       "`ISO_19794_5_OnlyOneFaceVisible` INT NOT NULL," \
-       "`ISO_19794_5_Resolution` INT NOT NULL," \
-       "`ISO_19794_5_ResolutionBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHeadBestPractice` INT NOT NULL," \
-       "`Features_Ethnicity` INT NOT NULL," \
-       "`Features_Gender` INT NOT NULL," \
-       "`Features_WearsGlasses` INT NOT NULL," \
-       "PRIMARY KEY (`id`));"
-
-query_fir_logitech_nir_data = "CREATE TABLE `frav_ABC`.`fir_logitech_nir_data` (" \
-       "`id` INT AUTO_INCREMENT," \
-       "`clase` INT NOT NULL," \
-       "`file` VARCHAR(255) NOT NULL," \
-       "`locateFace` INT NOT NULL," \
-       "`faceConfidence` REAL NOT NULL," \
-       "`locateEyes` INT NOT NULL," \
-       "`eye0Confidence` REAL NOT NULL," \
-       "`eye1Confidence` REAL NOT NULL," \
-       "`age` INT NOT NULL," \
-       "`backgroundUniformity` REAL NOT NULL," \
-       "`chin` REAL NOT NULL," \
-       "`crown` REAL NOT NULL," \
-       "`deviationFromFrontalPose` REAL NOT NULL," \
-       "`deviationFromUniformLighting` REAL NOT NULL," \
-       "`ear0` REAL NOT NULL," \
-       "`ear1` REAL NOT NULL," \
-       "`ethnicityAsian` REAL NOT NULL," \
-       "`ethnicityBlack` REAL NOT NULL," \
-       "`ethnicityWhite` REAL NOT NULL," \
-       "`exposure` REAL NOT NULL," \
-       "`eye0X` REAL NOT NULL," \
-       "`eye0Y` REAL NOT NULL," \
-       "`eye0GazeFrontal` REAL NOT NULL," \
-       "`eye0Open` REAL NOT NULL," \
-       "`eye0Red` REAL NOT NULL," \
-       "`eye0Tinted` REAL NOT NULL," \
-       "`eye1X` REAL NOT NULL," \
-       "`eye1Y` REAL NOT NULL," \
-       "`eye1GazeFrontal` REAL NOT NULL," \
-       "`eye1Open` REAL NOT NULL," \
-       "`eye1Red` REAL NOT NULL," \
-       "`eye1Tinted` REAL NOT NULL," \
-       "`eyeDistance` REAL NOT NULL," \
-       "`faceCenterX` REAL NOT NULL," \
-       "`faceCenterY` REAL NOT NULL," \
-       "`glasses` REAL NOT NULL," \
-       "`grayScaleDensity` INT NOT NULL," \
-       "`height` INT NOT NULL," \
-       "`hotSpots` INT NOT NULL," \
-       "`isColor` INT NOT NULL," \
-       "`isMale` REAL NOT NULL," \
-       "`lengthOfHead` REAL NOT NULL," \
-       "`mouthClosed` REAL NOT NULL," \
-       "`naturalSkinColour` REAL NOT NULL," \
-       "`numberOfFaces` INT NOT NULL," \
-       "`poseAngleRoll` REAL NOT NULL," \
-       "`sharpness` REAL NOT NULL," \
-       "`width` INT NOT NULL," \
-       "`widthOfHead` REAL NOT NULL," \
-       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesNotRedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesOpenBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_GoodExposure` INT NOT NULL," \
-       "`ISO_19794_5_GoodGrayScaleProfile` INT NOT NULL," \
-       "`ISO_19794_5_GoodVerticalFacePosition` INT NOT NULL," \
-       "`ISO_19794_5_HasNaturalSkinColour` INT NOT NULL," \
-       "`ISO_19794_5_HorizontallyCenteredFace` INT NOT NULL," \
-       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsCompliant` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontal` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsLightingUniform` INT NOT NULL," \
-       "`ISO_19794_5_IsSharp` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHeadBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_MouthClosedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_NoHotSpots` INT NOT NULL," \
-       "`ISO_19794_5_NoTintedGlasses` INT NOT NULL," \
-       "`ISO_19794_5_OnlyOneFaceVisible` INT NOT NULL," \
-       "`ISO_19794_5_Resolution` INT NOT NULL," \
-       "`ISO_19794_5_ResolutionBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHeadBestPractice` INT NOT NULL," \
-       "`Features_Ethnicity` INT NOT NULL," \
-       "`Features_Gender` INT NOT NULL," \
-       "`Features_WearsGlasses` INT NOT NULL," \
-       "PRIMARY KEY (`id`));"
-
-query_fir_microsoft_fluorescente_data = "CREATE TABLE `frav_ABC`.`fir_microsoft_fluorescente_data` (" \
-       "`id` INT AUTO_INCREMENT," \
-       "`clase` INT NOT NULL," \
-       "`file` VARCHAR(255) NOT NULL," \
-       "`locateFace` INT NOT NULL," \
-       "`faceConfidence` REAL NOT NULL," \
-       "`locateEyes` INT NOT NULL," \
-       "`eye0Confidence` REAL NOT NULL," \
-       "`eye1Confidence` REAL NOT NULL," \
-       "`age` INT NOT NULL," \
-       "`backgroundUniformity` REAL NOT NULL," \
-       "`chin` REAL NOT NULL," \
-       "`crown` REAL NOT NULL," \
-       "`deviationFromFrontalPose` REAL NOT NULL," \
-       "`deviationFromUniformLighting` REAL NOT NULL," \
-       "`ear0` REAL NOT NULL," \
-       "`ear1` REAL NOT NULL," \
-       "`ethnicityAsian` REAL NOT NULL," \
-       "`ethnicityBlack` REAL NOT NULL," \
-       "`ethnicityWhite` REAL NOT NULL," \
-       "`exposure` REAL NOT NULL," \
-       "`eye0X` REAL NOT NULL," \
-       "`eye0Y` REAL NOT NULL," \
-       "`eye0GazeFrontal` REAL NOT NULL," \
-       "`eye0Open` REAL NOT NULL," \
-       "`eye0Red` REAL NOT NULL," \
-       "`eye0Tinted` REAL NOT NULL," \
-       "`eye1X` REAL NOT NULL," \
-       "`eye1Y` REAL NOT NULL," \
-       "`eye1GazeFrontal` REAL NOT NULL," \
-       "`eye1Open` REAL NOT NULL," \
-       "`eye1Red` REAL NOT NULL," \
-       "`eye1Tinted` REAL NOT NULL," \
-       "`eyeDistance` REAL NOT NULL," \
-       "`faceCenterX` REAL NOT NULL," \
-       "`faceCenterY` REAL NOT NULL," \
-       "`glasses` REAL NOT NULL," \
-       "`grayScaleDensity` INT NOT NULL," \
-       "`height` INT NOT NULL," \
-       "`hotSpots` INT NOT NULL," \
-       "`isColor` INT NOT NULL," \
-       "`isMale` REAL NOT NULL," \
-       "`lengthOfHead` REAL NOT NULL," \
-       "`mouthClosed` REAL NOT NULL," \
-       "`naturalSkinColour` REAL NOT NULL," \
-       "`numberOfFaces` INT NOT NULL," \
-       "`poseAngleRoll` REAL NOT NULL," \
-       "`sharpness` REAL NOT NULL," \
-       "`width` INT NOT NULL," \
-       "`widthOfHead` REAL NOT NULL," \
-       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesNotRedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesOpenBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_GoodExposure` INT NOT NULL," \
-       "`ISO_19794_5_GoodGrayScaleProfile` INT NOT NULL," \
-       "`ISO_19794_5_GoodVerticalFacePosition` INT NOT NULL," \
-       "`ISO_19794_5_HasNaturalSkinColour` INT NOT NULL," \
-       "`ISO_19794_5_HorizontallyCenteredFace` INT NOT NULL," \
-       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsCompliant` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontal` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsLightingUniform` INT NOT NULL," \
-       "`ISO_19794_5_IsSharp` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHeadBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_MouthClosedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_NoHotSpots` INT NOT NULL," \
-       "`ISO_19794_5_NoTintedGlasses` INT NOT NULL," \
-       "`ISO_19794_5_OnlyOneFaceVisible` INT NOT NULL," \
-       "`ISO_19794_5_Resolution` INT NOT NULL," \
-       "`ISO_19794_5_ResolutionBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHeadBestPractice` INT NOT NULL," \
-       "`Features_Ethnicity` INT NOT NULL," \
-       "`Features_Gender` INT NOT NULL," \
-       "`Features_WearsGlasses` INT NOT NULL," \
-       "PRIMARY KEY (`id`));"
-
-query_fir_microsoft_halogeno_data = "CREATE TABLE `frav_ABC`.`fir_microsoft_halogeno_data` (" \
-       "`id` INT AUTO_INCREMENT," \
-       "`clase` INT NOT NULL," \
-       "`file` VARCHAR(255) NOT NULL," \
-       "`locateFace` INT NOT NULL," \
-       "`faceConfidence` REAL NOT NULL," \
-       "`locateEyes` INT NOT NULL," \
-       "`eye0Confidence` REAL NOT NULL," \
-       "`eye1Confidence` REAL NOT NULL," \
-       "`age` INT NOT NULL," \
-       "`backgroundUniformity` REAL NOT NULL," \
-       "`chin` REAL NOT NULL," \
-       "`crown` REAL NOT NULL," \
-       "`deviationFromFrontalPose` REAL NOT NULL," \
-       "`deviationFromUniformLighting` REAL NOT NULL," \
-       "`ear0` REAL NOT NULL," \
-       "`ear1` REAL NOT NULL," \
-       "`ethnicityAsian` REAL NOT NULL," \
-       "`ethnicityBlack` REAL NOT NULL," \
-       "`ethnicityWhite` REAL NOT NULL," \
-       "`exposure` REAL NOT NULL," \
-       "`eye0X` REAL NOT NULL," \
-       "`eye0Y` REAL NOT NULL," \
-       "`eye0GazeFrontal` REAL NOT NULL," \
-       "`eye0Open` REAL NOT NULL," \
-       "`eye0Red` REAL NOT NULL," \
-       "`eye0Tinted` REAL NOT NULL," \
-       "`eye1X` REAL NOT NULL," \
-       "`eye1Y` REAL NOT NULL," \
-       "`eye1GazeFrontal` REAL NOT NULL," \
-       "`eye1Open` REAL NOT NULL," \
-       "`eye1Red` REAL NOT NULL," \
-       "`eye1Tinted` REAL NOT NULL," \
-       "`eyeDistance` REAL NOT NULL," \
-       "`faceCenterX` REAL NOT NULL," \
-       "`faceCenterY` REAL NOT NULL," \
-       "`glasses` REAL NOT NULL," \
-       "`grayScaleDensity` INT NOT NULL," \
-       "`height` INT NOT NULL," \
-       "`hotSpots` INT NOT NULL," \
-       "`isColor` INT NOT NULL," \
-       "`isMale` REAL NOT NULL," \
-       "`lengthOfHead` REAL NOT NULL," \
-       "`mouthClosed` REAL NOT NULL," \
-       "`naturalSkinColour` REAL NOT NULL," \
-       "`numberOfFaces` INT NOT NULL," \
-       "`poseAngleRoll` REAL NOT NULL," \
-       "`sharpness` REAL NOT NULL," \
-       "`width` INT NOT NULL," \
-       "`widthOfHead` REAL NOT NULL," \
-       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesNotRedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesOpenBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_GoodExposure` INT NOT NULL," \
-       "`ISO_19794_5_GoodGrayScaleProfile` INT NOT NULL," \
-       "`ISO_19794_5_GoodVerticalFacePosition` INT NOT NULL," \
-       "`ISO_19794_5_HasNaturalSkinColour` INT NOT NULL," \
-       "`ISO_19794_5_HorizontallyCenteredFace` INT NOT NULL," \
-       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsCompliant` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontal` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsLightingUniform` INT NOT NULL," \
-       "`ISO_19794_5_IsSharp` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHeadBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_MouthClosedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_NoHotSpots` INT NOT NULL," \
-       "`ISO_19794_5_NoTintedGlasses` INT NOT NULL," \
-       "`ISO_19794_5_OnlyOneFaceVisible` INT NOT NULL," \
-       "`ISO_19794_5_Resolution` INT NOT NULL," \
-       "`ISO_19794_5_ResolutionBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHeadBestPractice` INT NOT NULL," \
-       "`Features_Ethnicity` INT NOT NULL," \
-       "`Features_Gender` INT NOT NULL," \
-       "`Features_WearsGlasses` INT NOT NULL," \
-       "PRIMARY KEY (`id`));"
-
-query_fir_microsoft_led_data = "CREATE TABLE `frav_ABC`.`fir_microsoft_led_data` (" \
-       "`id` INT AUTO_INCREMENT," \
-       "`clase` INT NOT NULL," \
-       "`file` VARCHAR(255) NOT NULL," \
-       "`locateFace` INT NOT NULL," \
-       "`faceConfidence` REAL NOT NULL," \
-       "`locateEyes` INT NOT NULL," \
-       "`eye0Confidence` REAL NOT NULL," \
-       "`eye1Confidence` REAL NOT NULL," \
-       "`age` INT NOT NULL," \
-       "`backgroundUniformity` REAL NOT NULL," \
-       "`chin` REAL NOT NULL," \
-       "`crown` REAL NOT NULL," \
-       "`deviationFromFrontalPose` REAL NOT NULL," \
-       "`deviationFromUniformLighting` REAL NOT NULL," \
-       "`ear0` REAL NOT NULL," \
-       "`ear1` REAL NOT NULL," \
-       "`ethnicityAsian` REAL NOT NULL," \
-       "`ethnicityBlack` REAL NOT NULL," \
-       "`ethnicityWhite` REAL NOT NULL," \
-       "`exposure` REAL NOT NULL," \
-       "`eye0X` REAL NOT NULL," \
-       "`eye0Y` REAL NOT NULL," \
-       "`eye0GazeFrontal` REAL NOT NULL," \
-       "`eye0Open` REAL NOT NULL," \
-       "`eye0Red` REAL NOT NULL," \
-       "`eye0Tinted` REAL NOT NULL," \
-       "`eye1X` REAL NOT NULL," \
-       "`eye1Y` REAL NOT NULL," \
-       "`eye1GazeFrontal` REAL NOT NULL," \
-       "`eye1Open` REAL NOT NULL," \
-       "`eye1Red` REAL NOT NULL," \
-       "`eye1Tinted` REAL NOT NULL," \
-       "`eyeDistance` REAL NOT NULL," \
-       "`faceCenterX` REAL NOT NULL," \
-       "`faceCenterY` REAL NOT NULL," \
-       "`glasses` REAL NOT NULL," \
-       "`grayScaleDensity` INT NOT NULL," \
-       "`height` INT NOT NULL," \
-       "`hotSpots` INT NOT NULL," \
-       "`isColor` INT NOT NULL," \
-       "`isMale` REAL NOT NULL," \
-       "`lengthOfHead` REAL NOT NULL," \
-       "`mouthClosed` REAL NOT NULL," \
-       "`naturalSkinColour` REAL NOT NULL," \
-       "`numberOfFaces` INT NOT NULL," \
-       "`poseAngleRoll` REAL NOT NULL," \
-       "`sharpness` REAL NOT NULL," \
-       "`width` INT NOT NULL," \
-       "`widthOfHead` REAL NOT NULL," \
-       "`ISO_19794_5_EyesGazeFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesNotRedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_EyesOpenBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_GoodExposure` INT NOT NULL," \
-       "`ISO_19794_5_GoodGrayScaleProfile` INT NOT NULL," \
-       "`ISO_19794_5_GoodVerticalFacePosition` INT NOT NULL," \
-       "`ISO_19794_5_HasNaturalSkinColour` INT NOT NULL," \
-       "`ISO_19794_5_HorizontallyCenteredFace` INT NOT NULL," \
-       "`ISO_19794_5_ImageWidthToHeightBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBackgroundUniformBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsCompliant` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontal` INT NOT NULL," \
-       "`ISO_19794_5_IsFrontalBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_IsLightingUniform` INT NOT NULL," \
-       "`ISO_19794_5_IsSharp` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_LengthOfHeadBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_MouthClosedBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_NoHotSpots` INT NOT NULL," \
-       "`ISO_19794_5_NoTintedGlasses` INT NOT NULL," \
-       "`ISO_19794_5_OnlyOneFaceVisible` INT NOT NULL," \
-       "`ISO_19794_5_Resolution` INT NOT NULL," \
-       "`ISO_19794_5_ResolutionBestPractice` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHead` INT NOT NULL," \
-       "`ISO_19794_5_WidthOfHeadBestPractice` INT NOT NULL," \
-       "`Features_Ethnicity` INT NOT NULL," \
-       "`Features_Gender` INT NOT NULL," \
-       "`Features_WearsGlasses` INT NOT NULL," \
-       "PRIMARY KEY (`id`));"
+def generate_query(l, db_name, table):
+    var_string = ', '.join(["%s"] * l)
+    query_string = "INSERT INTO `" + db_name + "`.`" + table + "` (clase,file,locateFace,faceConfidence,locateEyes,eye0Confidence,eye1Confidence,age,backgroundUniformity,chin,crown,deviationFromFrontalPose,deviationFromUniformLighting,ear0,ear1,ethnicityAsian,ethnicityBlack,ethnicityWhite,exposure,eye0X,eye0Y,eye0GazeFrontal,eye0Open,eye0Red,eye0Tinted,eye1X,eye1Y,eye1GazeFrontal,eye1Open,eye1Red,eye1Tinted,eyeDistance,faceCenterX,faceCenterY,glasses,grayScaleDensity,height,hotSpots,isColor,isMale,lengthOfHead,mouthClosed,naturalSkinColour,numberOfFaces,poseAngleRoll,sharpness,width,widthOfHead,ISO_19794_5_EyesGazeFrontalBestPractice,ISO_19794_5_EyesNotRedBestPractice,ISO_19794_5_EyesOpenBestPractice,ISO_19794_5_GoodExposure,ISO_19794_5_GoodGrayScaleProfile,ISO_19794_5_GoodVerticalFacePosition,ISO_19794_5_HasNaturalSkinColour,ISO_19794_5_HorizontallyCenteredFace,ISO_19794_5_ImageWidthToHeightBestPractice,ISO_19794_5_IsBackgroundUniformBestPractice,ISO_19794_5_IsBestPractice,ISO_19794_5_IsCompliant,ISO_19794_5_IsFrontal,ISO_19794_5_IsFrontalBestPractice,ISO_19794_5_IsLightingUniform,ISO_19794_5_IsSharp,ISO_19794_5_LengthOfHead,ISO_19794_5_LengthOfHeadBestPractice,ISO_19794_5_MouthClosedBestPractice,ISO_19794_5_NoHotSpots,ISO_19794_5_NoTintedGlasses,ISO_19794_5_OnlyOneFaceVisible,ISO_19794_5_Resolution,ISO_19794_5_ResolutionBestPractice,ISO_19794_5_WidthOfHead,ISO_19794_5_WidthOfHeadBestPractice,Features_Ethnicity,Features_Gender,Features_WearsGlasses) VALUES (%s);" % var_string
+    return query_string
