@@ -1,5 +1,9 @@
+import sys
+from time import sleep
+
+
 def create_table(table):
-    return "CREATE TABLE `frav_ABC`.`" + table + "` (" \
+    return "CREATE TABLE IF NOT EXISTS`frav_ABC`.`" + table + "` (" \
        "`id` INT AUTO_INCREMENT," \
        "`clase` INT," \
        "`file` VARCHAR(255)," \

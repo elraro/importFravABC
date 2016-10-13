@@ -1,4 +1,4 @@
-import MySQLdb as mdb
+import MySQLdb as Mdb
 import querys as querys
 
 # Hardcoded
@@ -7,9 +7,7 @@ DB_USER = "frav"
 DB_PASS = "VXxL4UOLvB6wc01Y3Cxi"
 DB_NAME = "frav_ABC"
 
-con = None
-
-con = mdb.connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)
+con = Mdb.connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)
 cur = con.cursor()
 
 cur.execute(querys.create_table("fir_logitech_fluorescente_data"))
@@ -29,7 +27,7 @@ cur.execute(querys.create_table("imgs_microsoft_led_data"))
 con.commit()
 
 
-def insert_data(file, table, con, cur, symbol=","):
+def insert_data(file, table, connection, cursor, symbol=","):
     with open(file) as f:
         print("Leyendo " + file)
         lines = f.readlines()
@@ -38,13 +36,13 @@ def insert_data(file, table, con, cur, symbol=","):
             l = line.replace("\n", "").split(symbol)
             query = querys.generate_query(len(l), DB_NAME, table)
             try:
-                cur.execute(query, l)
-                con.commit()
+                cursor.execute(query, l)
+                connection.commit()
             except Exception as e:
                 print("Error en " + table)
                 print(l)
                 print(query)
-                print("Error: " + e)
+                print("Error: " + str(e))
                 con.rollback()
 
 
