@@ -19,7 +19,7 @@ cur.execute(querys.insert_light_data())
 cur.execute(querys.create_data_table("fir_data"))
 cur.execute(querys.create_data_table("imgs_data"))
 cur.execute(querys.create_score_table())
-# con.commit()
+con.commit()
 
 
 def camera_light_values(l):
@@ -50,7 +50,7 @@ def insert_data(file, table, connection, cursor, symbol=",", read_values=False):
                 camera, light = camera_light_values(file.split("/")[-1].split("_")[0:2])
                 frame = str(int(l[1].split("\\")[-1].split(".")[0].split("_")[-1]))
                 l = l[:2] + [camera] + [light] + [frame] + l[2:]
-            query = querys.generate_query(len(l), DB_NAME, table)
+            query = querys.generate_data_query(len(l), DB_NAME, table)
             try:
                 cursor.execute(query, l)
                 connection.commit()
@@ -62,41 +62,73 @@ def insert_data(file, table, connection, cursor, symbol=",", read_values=False):
                 con.rollback()
 
 
-def insert_scores(file, table, connection, cursor):
-    pass
+def insert_scores(file, table, connection, cursor, symbol=","):
+    with open(file) as f:
+        print("Leyendo " + file)
+        lines = f.readlines()
+        for line in lines:
+            l = line.replace("\n", "").split(symbol)
+            id_fir = int(l[0])
+            id_img = int(l[2])
+            score = float(l[4])
+            camera, light = camera_light_values(file.split("/")[-1].split("_")[0:2])
+            frame = str(int(l[3].split("\\")[-1].split(".")[0].split("_")[-1]))
+            query = querys.generate_find_id_query(id=id_fir, table="fir_data", camera=1, light=1)
+            cursor.execute(query)
+            result = cursor.fetchone()
+            id_fir_db = result[0]
+            query = querys.generate_find_id_query(id=id_img, table="imgs_data", camera=camera, light=light, frame=frame)
+            cursor.execute(query)
+            result = cursor.fetchone()
+            id_img_db = result[0]
+            query = querys.insert_score_data(id_fir_db, id_img_db, score)
+            cursor.execute(query)
+            connection.commit()
 
 
 # fir
-# insert_data(FOLDER + "FIR/DATA/logitech_fluorescente_data.txt",
-#             "fir_data", con, cur)
-# insert_data(FOLDER + "FIR/DATA/logitech_halogeno_data.txt", "fir_data", con,
-#             cur)
-# insert_data(FOLDER + "FIR/DATA/logitech_led_data.txt", "fir_data", con, cur)
-# insert_data(FOLDER + "FIR/DATA/logitech_nir_data.txt", "fir_data", con, cur)
-# insert_data(FOLDER + "FIR/DATA/microsoft_fluorescente_data.txt",
-#             "fir_data", con, cur)
-# insert_data(FOLDER + "FIR/DATA/microsoft_halogeno_data.txt", "fir_data",
-#             con, cur)
-# insert_data(FOLDER + "FIR/DATA/microsoft_led_data.txt", "fir_data", con, cur)
+print("Comenzamos la lectura de los fir.")
+insert_data(FOLDER + "FIR/DATA/logitech_fluorescente_data.txt",
+            "fir_data", con, cur)
+insert_data(FOLDER + "FIR/DATA/logitech_halogeno_data.txt", "fir_data", con,
+            cur)
+insert_data(FOLDER + "FIR/DATA/logitech_led_data.txt", "fir_data", con, cur)
+insert_data(FOLDER + "FIR/DATA/logitech_nir_data.txt", "fir_data", con, cur)
+insert_data(FOLDER + "FIR/DATA/microsoft_fluorescente_data.txt",
+            "fir_data", con, cur)
+insert_data(FOLDER + "FIR/DATA/microsoft_halogeno_data.txt", "fir_data",
+            con, cur)
+insert_data(FOLDER + "FIR/DATA/microsoft_led_data.txt", "fir_data", con, cur)
+print("----------------------------------------------------------")
 
 # img data
-# insert_data(FOLDER + "DATA_INFO/DATA/logitech_fluorescente_imgs_data.csv",
-#             "imgs_data", con, cur, symbol=";", read_values=True)
-# insert_data(FOLDER + "DATA_INFO/DATA/logitech_halogeno_imgs_data.csv",
-#             "imgs_data", con, cur, symbol=";", read_values=True)
-# insert_data(FOLDER + "DATA_INFO/DATA/logitech_led_imgs_data.csv",
-#             "imgs_data", con, cur, symbol=";", read_values=True)
-# insert_data(FOLDER + "DATA_INFO/DATA/logitech_nir_imgs_data.csv",
-#             "imgs_data", con, cur, symbol=";", read_values=True)
-# insert_data(FOLDER + "DATA_INFO/DATA/microsoft_fluorescente_imgs_data.csv",
-#             "imgs_data", con, cur, symbol=";", read_values=True)
-# insert_data(FOLDER + "DATA_INFO/DATA/microsoft_halogeno_imgs_data.csv",
-#             "imgs_data", con, cur, symbol=";", read_values=True)
-# insert_data(FOLDER + "DATA_INFO/DATA/microsoft_led_imgs_data.csv",
-#             "imgs_data", con, cur, symbol=";", read_values=True)
+print("Comenzamos la lectura de los img_data.")
+insert_data(FOLDER + "DATA_INFO/DATA/logitech_fluorescente_imgs_data.csv",
+            "imgs_data", con, cur, symbol=";", read_values=True)
+insert_data(FOLDER + "DATA_INFO/DATA/logitech_halogeno_imgs_data.csv",
+            "imgs_data", con, cur, symbol=";", read_values=True)
+insert_data(FOLDER + "DATA_INFO/DATA/logitech_led_imgs_data.csv",
+            "imgs_data", con, cur, symbol=";", read_values=True)
+insert_data(FOLDER + "DATA_INFO/DATA/logitech_nir_imgs_data.csv",
+            "imgs_data", con, cur, symbol=";", read_values=True)
+insert_data(FOLDER + "DATA_INFO/DATA/microsoft_fluorescente_imgs_data.csv",
+            "imgs_data", con, cur, symbol=";", read_values=True)
+insert_data(FOLDER + "DATA_INFO/DATA/microsoft_halogeno_imgs_data.csv",
+            "imgs_data", con, cur, symbol=";", read_values=True)
+insert_data(FOLDER + "DATA_INFO/DATA/microsoft_led_imgs_data.csv",
+            "imgs_data", con, cur, symbol=";", read_values=True)
+print("----------------------------------------------------------")
 
 #scores
+print("Comenzamos la lectura de los scores.")
 insert_scores(FOLDER + "SCORES/logitech_fluorescente_imgs_scores.txt", "score_data", con, cur)
+insert_scores(FOLDER + "SCORES/logitech_halogeno_imgs_scores.txt", "score_data", con, cur)
+insert_scores(FOLDER + "SCORES/logitech_led_imgs_scores.txt", "score_data", con, cur)
+insert_scores(FOLDER + "SCORES/logitech_nir_imgs_scores.txt", "score_data", con, cur)
+insert_scores(FOLDER + "SCORES/microsoft_fluorescente_imgs_scores.txt", "score_data", con, cur)
+insert_scores(FOLDER + "SCORES/microsoft_halogeno_imgs_scores.txt", "score_data", con, cur)
+insert_scores(FOLDER + "SCORES/microsoft_led_imgs_scores.txt", "score_data", con, cur)
+print("----------------------------------------------------------")
 
 # close con
 con.close()
