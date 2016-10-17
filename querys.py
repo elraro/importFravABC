@@ -118,3 +118,11 @@ def insert_light_data():
     # 3 = led
     # 4 = nir
     return "INSERT INTO `frav_ABC`.`light_info`(`light`) VALUES (\"fluorescent\"), (\"halogen\"), (\"led\"), (\"nir\")"
+
+
+def create_score_table():
+    return "CREATE TABLE IF NOT EXISTS `frav_ABC`.`score_data` (" \
+           "`id` INT NOT NULL AUTO_INCREMENT, `id_fir` INT NOT NULL," \
+           "`id_img` INT NOT NULL, PRIMARY KEY(`id`)," \
+           "FOREIGN KEY (`id_fir`) REFERENCES fir_data(id)," \
+           "FOREIGN KEY (`id_img`) REFERENCES imgs_data(id));"
