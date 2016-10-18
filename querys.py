@@ -129,8 +129,12 @@ def create_score_table():
            "FOREIGN KEY (`id_img`) REFERENCES imgs_data(id));"
 
 
-def insert_score_data(id_fir, id_img, score):
-    return "INSERT INTO `frav_ABC`.`score_data`(`id_fir`,`id_img`,`score`) VALUES (" + str(id_fir) + "," + str(id_img) + "," + str(score) + ")"
+def insert_score_data(list):
+    query = "INSERT INTO `frav_ABC`.`score_data`(`id_fir`,`id_img`,`score`) VALUES "
+    for i in list[:-1]:
+        query = query + "(" + str(i[0]) + "," + str(i[1]) + "," + str(i[2]) + "),"
+    query = query + "(" + str(list[-1][0]) + "," + str(list[-1][1]) + "," + str(list[-1][2]) + ")"
+    return query
 
 
 def generate_find_id_query(id, table, camera=1, light=1, frame=0):
