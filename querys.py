@@ -1,12 +1,11 @@
-import sys
-from time import sleep
-
-
-def create_table(table):
+def create_data_table(table):
     return "CREATE TABLE IF NOT EXISTS`frav_ABC`.`" + table + "` (" \
        "`id` INT AUTO_INCREMENT," \
        "`clase` INT," \
        "`file` VARCHAR(255)," \
+       "`camera` INT," \
+       "`light` INT," \
+       "`frame` INT," \
        "`locateFace` INT," \
        "`faceConfidence` REAL," \
        "`locateEyes` INT," \
@@ -82,10 +81,61 @@ def create_table(table):
        "`Features_Ethnicity` INT," \
        "`Features_Gender` INT," \
        "`Features_WearsGlasses` INT," \
-       "PRIMARY KEY (`id`));"
+       "PRIMARY KEY (`id`)," \
+       "FOREIGN KEY (`camera`) REFERENCES camera_info(id)," \
+       "FOREIGN KEY (`light`) REFERENCES light_info(id));"
 
 
-def generate_query(l, db_name, table):
+def generate_data_query(l, db_name, table):
     var_string = ', '.join(["%s"] * l)
-    query_string = "INSERT INTO `" + db_name + "`.`" + table + "` (clase,file,locateFace,faceConfidence,locateEyes,eye0Confidence,eye1Confidence,age,backgroundUniformity,chin,crown,deviationFromFrontalPose,deviationFromUniformLighting,ear0,ear1,ethnicityAsian,ethnicityBlack,ethnicityWhite,exposure,eye0X,eye0Y,eye0GazeFrontal,eye0Open,eye0Red,eye0Tinted,eye1X,eye1Y,eye1GazeFrontal,eye1Open,eye1Red,eye1Tinted,eyeDistance,faceCenterX,faceCenterY,glasses,grayScaleDensity,height,hotSpots,isColor,isMale,lengthOfHead,mouthClosed,naturalSkinColour,numberOfFaces,poseAngleRoll,sharpness,width,widthOfHead,ISO_19794_5_EyesGazeFrontalBestPractice,ISO_19794_5_EyesNotRedBestPractice,ISO_19794_5_EyesOpenBestPractice,ISO_19794_5_GoodExposure,ISO_19794_5_GoodGrayScaleProfile,ISO_19794_5_GoodVerticalFacePosition,ISO_19794_5_HasNaturalSkinColour,ISO_19794_5_HorizontallyCenteredFace,ISO_19794_5_ImageWidthToHeightBestPractice,ISO_19794_5_IsBackgroundUniformBestPractice,ISO_19794_5_IsBestPractice,ISO_19794_5_IsCompliant,ISO_19794_5_IsFrontal,ISO_19794_5_IsFrontalBestPractice,ISO_19794_5_IsLightingUniform,ISO_19794_5_IsSharp,ISO_19794_5_LengthOfHead,ISO_19794_5_LengthOfHeadBestPractice,ISO_19794_5_MouthClosedBestPractice,ISO_19794_5_NoHotSpots,ISO_19794_5_NoTintedGlasses,ISO_19794_5_OnlyOneFaceVisible,ISO_19794_5_Resolution,ISO_19794_5_ResolutionBestPractice,ISO_19794_5_WidthOfHead,ISO_19794_5_WidthOfHeadBestPractice,Features_Ethnicity,Features_Gender,Features_WearsGlasses) VALUES (%s);" % var_string
+    query_string = "INSERT INTO `" + db_name + "`.`" + table + "` (clase,file,camera,light,frame,locateFace,faceConfidence,locateEyes,eye0Confidence,eye1Confidence,age,backgroundUniformity,chin,crown,deviationFromFrontalPose,deviationFromUniformLighting,ear0,ear1,ethnicityAsian,ethnicityBlack,ethnicityWhite,exposure,eye0X,eye0Y,eye0GazeFrontal,eye0Open,eye0Red,eye0Tinted,eye1X,eye1Y,eye1GazeFrontal,eye1Open,eye1Red,eye1Tinted,eyeDistance,faceCenterX,faceCenterY,glasses,grayScaleDensity,height,hotSpots,isColor,isMale,lengthOfHead,mouthClosed,naturalSkinColour,numberOfFaces,poseAngleRoll,sharpness,width,widthOfHead,ISO_19794_5_EyesGazeFrontalBestPractice,ISO_19794_5_EyesNotRedBestPractice,ISO_19794_5_EyesOpenBestPractice,ISO_19794_5_GoodExposure,ISO_19794_5_GoodGrayScaleProfile,ISO_19794_5_GoodVerticalFacePosition,ISO_19794_5_HasNaturalSkinColour,ISO_19794_5_HorizontallyCenteredFace,ISO_19794_5_ImageWidthToHeightBestPractice,ISO_19794_5_IsBackgroundUniformBestPractice,ISO_19794_5_IsBestPractice,ISO_19794_5_IsCompliant,ISO_19794_5_IsFrontal,ISO_19794_5_IsFrontalBestPractice,ISO_19794_5_IsLightingUniform,ISO_19794_5_IsSharp,ISO_19794_5_LengthOfHead,ISO_19794_5_LengthOfHeadBestPractice,ISO_19794_5_MouthClosedBestPractice,ISO_19794_5_NoHotSpots,ISO_19794_5_NoTintedGlasses,ISO_19794_5_OnlyOneFaceVisible,ISO_19794_5_Resolution,ISO_19794_5_ResolutionBestPractice,ISO_19794_5_WidthOfHead,ISO_19794_5_WidthOfHeadBestPractice,Features_Ethnicity,Features_Gender,Features_WearsGlasses) VALUES (%s);" % var_string
     return query_string
+
+
+def create_camera_table():
+    return "CREATE TABLE IF NOT EXISTS `frav_ABC`.`camera_info` (" \
+           "`id` INT NOT NULL AUTO_INCREMENT," \
+           "`camera` VARCHAR(32) NOT NULL," \
+           "PRIMARY KEY(`id`));"
+
+
+def create_light_table():
+    return "CREATE TABLE IF NOT EXISTS `frav_ABC`.`light_info` (" \
+           "`id` INT NOT NULL AUTO_INCREMENT," \
+           "`light` VARCHAR(32) NOT NULL," \
+           "PRIMARY KEY(`id`));"
+
+
+def insert_camera_data():
+    # 1 = logitech
+    # 2 = microsoft
+    return "INSERT INTO `frav_ABC`.`camera_info`(`camera`) VALUES (\"logitech\"), (\"microsoft\")"
+
+
+def insert_light_data():
+    # 1 = fluorescent
+    # 2 = halogen
+    # 3 = led
+    # 4 = nir
+    return "INSERT INTO `frav_ABC`.`light_info`(`light`) VALUES (\"fluorescent\"), (\"halogen\"), (\"led\"), (\"nir\")"
+
+
+def create_score_table():
+    return "CREATE TABLE IF NOT EXISTS `frav_ABC`.`score_data` (" \
+           "`id` INT NOT NULL AUTO_INCREMENT, `id_fir` INT NOT NULL," \
+           "`id_img` INT NOT NULL, PRIMARY KEY(`id`)," \
+           "`score` REAL," \
+           "FOREIGN KEY (`id_fir`) REFERENCES fir_data(id)," \
+           "FOREIGN KEY (`id_img`) REFERENCES imgs_data(id));"
+
+
+def insert_score_data(list):
+    query = "INSERT INTO `frav_ABC`.`score_data`(`id_fir`,`id_img`,`score`) VALUES "
+    for i in list[:-1]:
+        query = query + "(" + str(i[0]) + "," + str(i[1]) + "," + str(i[2]) + "),"
+    query = query + "(" + str(list[-1][0]) + "," + str(list[-1][1]) + "," + str(list[-1][2]) + ")"
+    return query
+
+
+def generate_find_id_query(id, table, camera=1, light=1, frame=0):
+    return "SELECT id FROM `frav_ABC`.`" + table + "` WHERE `clase` = " + str(id) + " AND `camera` = " + str(camera) + " AND `light` = " + str(light) + " AND `frame` = " + str(frame) + ""
