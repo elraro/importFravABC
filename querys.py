@@ -122,15 +122,15 @@ def insert_light_data():
 
 def create_score_table():
     return "CREATE TABLE IF NOT EXISTS `frav_ABC`.`score_data` (" \
-           "`id` INT NOT NULL AUTO_INCREMENT, `id_fir` INT NOT NULL," \
+           "`id` INT NOT NULL AUTO_INCREMENT, `id_pass` INT NOT NULL," \
            "`id_img` INT NOT NULL, PRIMARY KEY(`id`)," \
            "`score` REAL," \
-           "FOREIGN KEY (`id_fir`) REFERENCES fir_data(id)," \
+           "FOREIGN KEY (`id_pass`) REFERENCES pass_data(id)," \
            "FOREIGN KEY (`id_img`) REFERENCES imgs_data(id));"
 
 
 def insert_score_data(list):
-    query = "INSERT INTO `frav_ABC`.`score_data`(`id_fir`,`id_img`,`score`) VALUES "
+    query = "INSERT INTO `frav_ABC`.`score_data`(`id_pass`,`id_img`,`score`) VALUES "
     for i in list[:-1]:
         query = query + "(" + str(i[0]) + "," + str(i[1]) + "," + str(i[2]) + "),"
     query = query + "(" + str(list[-1][0]) + "," + str(list[-1][1]) + "," + str(list[-1][2]) + ")"
