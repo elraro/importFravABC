@@ -5,7 +5,7 @@ DB_HOST = "localhost"
 DB_USER = "frav"
 DB_PASS = "VXxL4UOLvB6wc01Y3Cxi"
 DB_NAME = "frav_ABC"
-FOLDER = "/media/alberto/Datos/FRAV_ALBERTO/"
+FOLDER = "/home/alberto/FRAV_ALBERTO/"
 
 con = Mdb.connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)
 cur = con.cursor()
@@ -29,5 +29,7 @@ for row in data:
 # data = cur.fetchall()
 # for row in data:
 #     print(row)
+
+# SELECT * FROM `score_data` s INNER JOIN `imgs_data` i ON s.id_img = i.id WHERE s.id_pass=1 AND i.clase = 0 AND i.camera = 1 AND i.light = 1 ORDER BY `s`.`score` DESC LIMIT 1
 
 con.close()
