@@ -2,14 +2,13 @@ import MySQLdb as Mdb
 import querys as querys
 from collections import defaultdict
 import dill
-import sys
 
 # Hardcoded
 DB_HOST = "localhost"
 DB_USER = "frav"
 DB_PASS = "VXxL4UOLvB6wc01Y3Cxi"
 DB_NAME = "frav_ABC"
-FOLDER = "/media/alberto/Datos/FRAV_ALBERTO/"
+FOLDER = "/home/alberto/FRAV_ALBERTO/"
 
 con = Mdb.connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)
 cur = con.cursor()
@@ -113,6 +112,18 @@ def insert_scores(file, table, connection, cursor, symbol=","):
                     print(query)
                     print("Error: " + str(e))
                     con.rollback()
+        if len(temp) != 0:
+            try:
+                query = querys.insert_score_data(temp)
+                cursor.execute(query)
+                connection.commit()
+                temp.clear()
+            except Exception as e:
+                print("Error en " + table)
+                print(l)
+                print(query)
+                print("Error: " + str(e))
+                con.rollback()
 
 
 # fir
