@@ -112,18 +112,18 @@ def insert_scores(file, table, connection, cursor, symbol=","):
                     print(query)
                     print("Error: " + str(e))
                     con.rollback()
-        # aqui fallo, revisar
-        try:
-            query = querys.insert_score_data(temp)
-            cursor.execute(query)
-            connection.commit()
-            temp.clear()
-        except Exception as e:
-            print("Error en " + table)
-            print(l)
-            print(query)
-            print("Error: " + str(e))
-            con.rollback()
+        if len(temp) != 0:
+            try:
+                query = querys.insert_score_data(temp)
+                cursor.execute(query)
+                connection.commit()
+                temp.clear()
+            except Exception as e:
+                print("Error en " + table)
+                print(l)
+                print(query)
+                print("Error: " + str(e))
+                con.rollback()
 
 
 # fir

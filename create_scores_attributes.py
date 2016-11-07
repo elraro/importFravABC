@@ -1,5 +1,6 @@
 import MySQLdb as Mdb
 import numpy as np
+import dill
 
 # Hardcoded
 DB_HOST = "localhost"
@@ -16,13 +17,13 @@ attributes = np.ndarray(shape=(112, 112, 75), dtype=float)
 scores = np.ndarray(shape=(112, 112), dtype=float)
 attr_aux = np.ndarray(shape=(112, 75), dtype=float)  # aux
 scores_aux = np.ndarray(shape=112, dtype=float)  # aux
-np.set_printoptions(threshold=np.nan)  # para debug
+# np.set_printoptions(threshold=np.nan)  # para debug
 
 cur.execute("SELECT i.clase FROM `imgs_data` i WHERE i.camera = 1 AND i.light = 1 GROUP BY i.clase")
 total_users = cur.fetchall()
 for user in total_users:
     users[user[0]] = user[0]
-print(users)
+
 # vamos a leer los atributos y a guardarlos en matrix
 count_pass = 0
 for user_pass in users:
@@ -37,5 +38,7 @@ for user_pass in users:
     scores[count_pass] = np.matrix(scores_aux)
     count_pass += 1
 
-print(scores)
-print(attributes)
+# dump
+dill.dump(scores, open("scores.bin", "wb"))
+dill.dump(attributes, open("attributes.bin", "wb"))
+

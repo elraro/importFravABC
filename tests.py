@@ -25,11 +25,9 @@ data = cur.fetchall()
 for row in data:
     print(row)
 
-# cur.execute("SELECT * FROM score_data s INNER JOIN fir_data f ON s.id_fir = f.id INNER JOIN imgs_data i ON s.id_img = i.id WHERE i.light=4")
-# data = cur.fetchall()
-# for row in data:
-#     print(row)
-
-# SELECT * FROM `score_data` s INNER JOIN `imgs_data` i ON s.id_img = i.id WHERE s.id_pass=1 AND i.clase = 0 AND i.camera = 1 AND i.light = 1 ORDER BY `s`.`score` DESC LIMIT 1
+cur.execute("SELECT * FROM score_data s INNER JOIN fir_data f ON s.id_fir = f.id INNER JOIN imgs_data i ON s.id_img = i.id WHERE i.light=4")
+data = cur.fetchall()
+for row in data:
+    print(row)
 
 con.close()
